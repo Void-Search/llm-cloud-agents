@@ -1,0 +1,4 @@
+pytest
+ollama
+psutil
+pprint
