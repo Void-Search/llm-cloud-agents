@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  ollama_service:
+    build: .
+    devices:
+      - "/dev/dri:/dev/dri"  
+      - "/dev/kfd:/dev/kfd"
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XAUTHORITY=/tmp/.Xauthority
+    ports:
+      - "5000:11434"
+    command: ["/bin/bash"]
+    tty: true
+    security_opt:
+      - seccomp:unconfined
+    group_add:
+      - video
+      - render

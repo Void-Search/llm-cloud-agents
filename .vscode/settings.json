@@ -1,5 +1,5 @@
 {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "ms-python.vscode-pylance",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
 }

@@ -166,7 +166,11 @@ fi
 
 if check_gpu lspci amdgpu || check_gpu lshw amdgpu; then
     # Look for pre-existing ROCm v6 before downloading the dependencies
+    echo "Checking for compatible AMD GPU ROCm library..."
+    echo "HIP_PATH: ${HIP_PATH:-''}"
+    echo "ROCM_PATH: ${ROCM_PATH:-''}"
     for search in "${HIP_PATH:-''}" "${ROCM_PATH:-''}" "/opt/rocm"; do
+        echo "Checking ${search}..."
         if [ -n "${search}" ] && [ -e "${search}/lib/libhipblas.so.2" ]; then
             status "Compatible AMD GPU ROCm library detected at ${search}"
             install_success
