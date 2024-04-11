@@ -2,6 +2,7 @@ import os
 import sys
 import pprint
 import logging
+import OpenSSL
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from helper_functions.timing_functions import monitor_function

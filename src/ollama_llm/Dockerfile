@@ -5,7 +5,6 @@ ARG UBUNTU_VERSION=22.04
 FROM rocm/dev-ubuntu-${UBUNTU_VERSION}:${ROCM_VERSION} AS build-env
 WORKDIR /workspace
 COPY . /workspace/
-USER root
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Sydney
 RUN apt-get update && \
@@ -37,18 +36,19 @@ RUN apt-get update && \
     vim-nox && \   
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN pip install --no-cache-dir -r requirements.txt 
-CMD ["/bin/bash"]
+RUN pip install --upgrade pip && \
+    pip  --no-cache-dir -r requirements.txt 
 
 
 
 
 # Stage 2: Install Ollama
- FROM build-env AS ollama_install
- RUN sh /workspace/ollama_files/ollama_install.sh && \
-     rm -rf /workspace/ollama_files && \
-     ls -l /usr/local/bin/ollama && \
-     chmod +x /usr/local/bin/ollama
+FROM build-env AS ollama_install
+WORKDIR /workspace
+RUN sh /workspace/ollama_files/ollama_install.sh && \
+    rm -rf /workspace/ollama_files && \
+    ls -l /usr/local/bin/ollama && \
+    chmod +x /usr/local/bin/ollama 
 
 # # Final Stage: Prepare the runtime environment
 # FROM ollama_install AS runtime

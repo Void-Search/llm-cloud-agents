@@ -3,6 +3,8 @@ version: '3.8'
 services:
   ollama_service:
     build: .
+    group_add:
+      - video
     devices:
       - "/dev/dri:/dev/dri"  
       - "/dev/kfd:/dev/kfd"
@@ -15,6 +17,4 @@ services:
     tty: true
     security_opt:
       - seccomp:unconfined
-    group_add:
-      - video
-      - render
+    privileged: true
