@@ -1,52 +1,89 @@
 #!/bin/bash
 GPU_PLATFORM=""
 FRAMEWORK="" 
+LOG_FILE=""
 
-function parse_args() {    
+function log() {
+    # print to terminal and log
+    echo "$(date) - $1" | tee -a "$LOG_FILE"
+}
+
+function parse_args() {
     while [ "$#" -gt 0 ]; do
         case "$1" in
+            -l|--logfile)
+                if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+                    LOG_FILE="$2"
+                    log "Log File: $LOG_FILE"
+                    shift 2
+                else
+                    log "Error: Log file path $1 is missing or requires a valid path."
+                    exit 1
+                fi
+                ;;
             -g|--gpu)
                 if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-                    GPU_PLATFORM="$2"
-                    shift 2
+                    if [[ "$2" == "cuda" || "$2" == "rocm" ]]; then
+                        GPU_PLATFORM="$2"
+                        log "GPU Platform: $GPU_PLATFORM"
+                        shift 2
+                    else
+                        log "Error: GPU platform must be 'cuda' or 'rocm'."
+                        exit 1
+                    fi
+                else
+                    log "Error: GPU platform $1 is missing or requires a valid argument such as 'cuda' or 'rocm'."
+                    exit 1
                 fi
                 ;;
             -f|--framework)
-                if [ -n "$3" ] && [ "${3:0:1}" != "-" ]; then
-                    FRAMEWORK="$3"
-                    shift 2
+                if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+                    if [[ "$2" == "ollama" ]]; then
+                        FRAMEWORK="$2"
+                        log "Framework: $FRAMEWORK"
+                        shift 2
+                    else
+                        log "Error: Framework must be 'ollama'."
+                        exit 1
+                    fi
+                else
+                    log "Error: Framework $1 is missing or requires a valid argument such as ollama."
+                    exit 1
                 fi
                 ;;
             -h|--help)
-                echo "Usage: $0 [options] <cuda|rocm>"
+                echo "Usage: $0 [options]"
                 echo "Options:"
-                echo "  -g, --gpu    Specify the GPU platform (cuda or rocm)"
-                echo "  -h, --help   Show this help message and exit"
+                echo "  -g, --gpu       Specify the GPU platform (cuda or rocm)"
+                echo "  -f, --framework Specify the framework to use (only ollama is supported)"
+                echo "  -l, --logfile   Specify the path to the log file"
+                echo "  -h, --help      Show this help message and exit"
                 exit 0
                 ;;
             *)
                 echo "Unknown argument: $1"
-                echo "Usage: $0 [options] -g <cuda|rocm>"
+                echo "Usage: $0 [options] -g <cuda|rocm> -f <framework> -l <path to log file>"
                 exit 1
                 ;;
         esac
     done
 
-    echo "Arguments parsed..."
+    log "Arguments parsed..."
 }
+
 
 # install dependencies arch
 function install_dependencies() {
     # check if pamac is installed
     if ! command -v pamac &> /dev/null
     then
-        echo "pamac is not installed. Installing pamac..."
+        log "pamac is not installed. Installing pamac..."
         sudo pacman -S pamac --no-confirm
     fi
     # check if docker is installed
     if ! command -v docker &> /dev/null
     then
-        echo "docker is not installed. Installing docker..."
+        log "docker is not installed. Installing docker..."
          pamac install docker docker-compose --no-confirm
     fi
 } 
@@ -55,7 +92,7 @@ function install_rocm() {
     # check if rocm is installed
     if ! command -v rocm-smi &> /dev/null
     then
-        echo "rocm is not installed. Installing rocm..."
+        log "rocm is not installed. Installing rocm..."
         pamac install rocm-hip-sdk rocm-opencl-runtime rocm-dkms rocm-opencl rocm-opencl-dev rocm-profiler rocm-utils rocm-smi rocm-cmake rocm-device-libs rocm-clang rocm-rocprofiler rocm-rocminfo rocm-bandwidth-test
         pamac install rocm-hip-sdk rocm-opencl-sdk python-pytorch-cxx11abi-opt-rocm --no-confirm
         useradd rocm_user
@@ -75,14 +112,13 @@ function install_nvidia_container_toolkit() {
     
 
 function setup_docker() {
-    systemctl start docker
-    systemctl enable docker
+    systemctl enable --now docker
     usermod -aG docker "$USER"
 }
 
 function check_os() {
     if [ ! -f /etc/arch-release ]; then
-        echo "This script is only for Arch Linux"
+        log "This script is only for Arch Linux"
         exit 1
     fi
 }
@@ -92,8 +128,8 @@ function install_ollama() {
     # install ollama check if installed
     if ! command -v ollama &> /dev/null
     then
-        echo "ollama is not installed. Installing ollama..."
-        sh "{$PWD}/../ollama/${OLLAMA_VERSION}/ollama_install.sh"
+        log "ollama is not installed. Installing ollama..."
+        sh "${PWD}/../ollama/${OLLAMA_VERSION}/ollama_install.sh"
     fi
 }
 

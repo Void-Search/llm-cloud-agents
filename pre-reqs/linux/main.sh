@@ -27,6 +27,7 @@ function parse_args() {
                 fi
                 ;;
             -h|--help)
+                echo "Info: This script is intended to be run as root"
                 echo "Usage: $0 [options] <cuda|rocm>"
                 echo "Options:"
                 echo "  -c, --config_file    Specify the path to the .config file"
@@ -43,29 +44,29 @@ function parse_args() {
 }
 
 function source_config_file() {
-    if [ ! -f "$CONFIG_FILE" ]; then
-        log "Config file not found at $CONFIG_FILE. Exiting..."
+    if [ ! -f "${CONFIG_FILE}" ]; then
+        log "Config file not found at ${CONFIG_FILE}. Exiting..."
         exit 1
     fi
-    source "$CONFIG_FILE"
+    source "${CONFIG_FILE}"
 
 }
 
 function check_os() {
     if [ -f /etc/arch-release ] || [ -f /etc/manjaro-release ]; then
         log "Running arch linux setup..."
-        if [-f "${PWD}/linux/arch/arch_os_setup.sh"]; then
-            bash "${PWD}/linux/arch/arch_os_setup.sh"
+        if [ -f "${PWD}/arch/arch_os_setup.sh" ]; then
+            bash "${PWD}/arch/arch_os_setup.sh" -l "${LOG_FILE}" -g "${GPU_PLATFORM}" -f "${FRAMEWORK}" 
         else
-            log "${PWD}/linux/arch/arch_os_setup.sh not found. Exiting..."
+            log "${PWD}/arch/arch_os_setup.sh not found. Exiting..."
             exit 1
         fi
     elif [ -f /etc/debian_version ]; then
         log "Running debian/ubuntu setup..."
-        if [-f "${PWD}/linux/ubuntu/ubuntu_os_setup.sh"]; then
-            bash "${PWD}/linux/ubuntu/ubuntu_os_setup.sh"
+        if [ -f "${PWD}/ubuntu/ubuntu_os_setup.sh" ]; then
+            bash "${PWD}/ubuntu/ubuntu_os_setup.sh"
         else
-            log "${PWD}/linux/ubuntu/ubuntu_os_setup.sh not found. Exiting..."
+            log "${PWD}/ubuntu/ubuntu_os_setup.sh not found. Exiting..."
             exit 1
         fi
     else
@@ -76,11 +77,12 @@ function check_os() {
 
 
 function main() {
-    check_if_user_has_privellages
     parse_args "$@"
+    check_if_user_has_privellages
     source_config_file
-    log "Configuration parsed..."
+    log ""
     log "Starting pre-requisites installation..."
+    log "Configuration parsed..."
     check_os
 
 }

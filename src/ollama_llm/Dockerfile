@@ -37,15 +37,15 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN pip install --upgrade pip && \
-    pip  --no-cache-dir -r requirements.txt 
+    pip install --no-cache-dir -r requirements.txt 
 
 
 
-
+ARG OLLAMA_VERSION=v0.1.31
 # Stage 2: Install Ollama
 FROM build-env AS ollama_install
 WORKDIR /workspace
-RUN sh /workspace/ollama_files/ollama_install.sh && \
+RUN sh /workspace/ollama_files/${OLLAMA_VERSION}/ollama_install.sh && \
     rm -rf /workspace/ollama_files && \
     ls -l /usr/local/bin/ollama && \
     chmod +x /usr/local/bin/ollama 
