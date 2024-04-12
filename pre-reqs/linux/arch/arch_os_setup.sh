@@ -93,7 +93,7 @@ function install_ollama() {
     if ! command -v ollama &> /dev/null
     then
         echo "ollama is not installed. Installing ollama..."
-        sh "ollama/${OLLAMA_VERSION}/ollama_install.sh"
+        sh "{$PWD}/../ollama/${OLLAMA_VERSION}/ollama_install.sh"
     fi
 }
 
