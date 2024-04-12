@@ -1,10 +1,6 @@
-
+#!/bin/bash
 GPU_PLATFORM=""
-FRAMEWORK=""
-
-# source the config file in this directory, this script can be run from anyhere
- 
-source "${PWD}/.config"
+FRAMEWORK="" 
 
 function parse_args() {    
     while [ "$#" -gt 0 ]; do
@@ -73,6 +69,11 @@ function install_cuda() {
     pamac install cuda cudnn --no-confirm
 }
 
+function install_nvidia_container_toolkit() { 
+    pamac install nvidia-container-toolkit --no-confirm
+}
+    
+
 function setup_docker() {
     systemctl start docker
     systemctl enable docker
@@ -80,11 +81,6 @@ function setup_docker() {
 }
 
 function check_os() {
-    # Check if running with sudo
-    if [ "$EUID" -ne 0 ]
-        then echo "Please run as root"
-        exit 1
-    fi
     if [ ! -f /etc/arch-release ]; then
         echo "This script is only for Arch Linux"
         exit 1
@@ -107,6 +103,7 @@ parse_args "$@"
 install_dependencies
 if [[ ${GPU_PLATFORM} == "cuda" ]]; then
     install_cuda
+    install_nvidia_container_toolkit
 elif [[ ${GPU_PLATFORM} == "rocm" ]]; then
     install_rocm
 fi
