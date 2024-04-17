@@ -1,0 +1,83 @@
+{
+  "models": [
+    {
+      "title": "Llama2-7b",
+      "model": "llama2-7b",
+      "completionOptions": {},
+      "apiBase": "http://localhost:11434",
+      "provider": "ollama"
+    },
+    {
+      "title": "runpod-llama2-7b",
+      "model": "llama2-7b",
+      "completionOptions": {},
+      "apiBase": "https://7k4pf179lg1g5d-11434.proxy.runpod.net",
+      "provider": "ollama"
+    }
+  ],
+  "slashCommands": [
+    {
+      "name": "edit",
+      "description": "Edit selected code"
+    },
+    {
+      "name": "comment",
+      "description": "Write comments for the selected code"
+    },
+    {
+      "name": "share",
+      "description": "Export this session as markdown"
+    },
+    {
+      "name": "cmd",
+      "description": "Generate a shell command"
+    }
+  ],
+  "customCommands": [
+    {
+      "name": "test",
+      "prompt": "Write a comprehensive set of unit tests for the selected code. It should setup, run tests that check for correctness including important edge cases, and teardown. Ensure that the tests are complete and sophisticated. Give the tests just as chat output, don't edit any file.",
+      "description": "Write unit tests for highlighted code"
+    }
+  ],
+  "contextProviders": [
+    {
+      "name": "diff",
+      "params": {}
+    },
+    {
+      "name": "open",
+      "params": {}
+    },
+    {
+      "name": "terminal",
+      "params": {}
+    },
+    {
+      "name": "problems",
+      "params": {}
+    },
+    {
+      "name": "codebase",
+      "params": {}
+    },
+    {
+      "name": "code",
+      "params": {}
+    },
+    {
+      "name": "docs",
+      "params": {}
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "runpod-llama2-7b",
+    "provider": "ollama",
+    "model": "llama2:7b",
+    "apiBase": "https://7k4pf179lg1g5d-11434.proxy.runpod.net"
+  },
+  "allowAnonymousTelemetry": false,
+  "embeddingsProvider": {
+    "provider": "transformers.js"
+  }
+}
