@@ -28,17 +28,23 @@ else
     RUNPODCTL_BINDIR="/usr/bin"
 fi
 
+# Check if sudo
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit 1
+fi
+
 function fetch_runpodctl() {
     wget  --show-progress https://github.com/Run-Pod/runpodctl/releases/download/${RUNPOD_VERSION}/runpodctl-linux-amd64 \
      -O runpodctl && \
      chmod +x runpodctl && \
-     mv runpodctl "${RUNPODCTL_BINDIR}/runpodctl"
+    mv runpodctl "${RUNPODCTL_BINDIR}/runpodctl"
 }
 
 function install_completion() {
     if [ "${COMPLETION_SHELL}" = "bash" ]
     then
-        runpodctl completion bash > /etc/bash_completion.d/runpodctl
+        runpodctl completion bash > 
     elif [ "${COMPLETION_SHELL}" = "zsh" ]
     then
         runpodctl completion zsh >> "${HOME}/.zshrc"

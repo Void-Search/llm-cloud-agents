@@ -1,3 +1,9 @@
-[submodule "src/nvidia/GenerativeAIExamples"]
-	path = src/nvidia/GenerativeAIExamples
-	url = git@github.com:NVIDIA/GenerativeAIExamples.git
+[submodule "src/ollama"]
+	path = src/ollama
+	url = git@github.com:Void-Search/ollama.git
+[submodule "src/nvidia-llm-development"]
+	path = src/nvidia-llm-development
+	url = git@github.com:Void-Search/nvidia-llm-development.git
+[submodule "src/continue-config"]
+	path = src/continue-config
+	url = git@github.com:Void-Search/continue-config.git
