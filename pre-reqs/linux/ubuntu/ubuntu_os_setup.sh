@@ -7,7 +7,9 @@ then
     exit 1
 fi
 
-
+function update_host() {
+    apt-get update && apt-get upgrade -y
+}
 
 function install_nvidia_toolkit() {
     # Add the package repositories
@@ -32,5 +34,5 @@ function install_nvidia_toolkit() {
 
 }
 
-
+update_host
 install_nvidia_toolkit

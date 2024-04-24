@@ -58,9 +58,10 @@ class HttpPostStrategy():
 
 # Example usage:
 if __name__ == "__main__":
-    url = "https://7k4pf179lg1g5d-11434.proxy.runpod.net/api/generate"
-    strategy = HttpPostStrategy(url)
-    payload = {"model": "llama2:7b", "prompt": "hello world", "format": "json"}
-    messenger = Messenger(strategy=strategy)
-    response = messenger.send_message("llama2:7b", "How do i cook a dinner")
+    url = "https://pzu8vkrr8c54ea-11434.proxy.runpod.net/api/tags"
+    response = requests.get(url,timeout=5).json()
+    #strategy = HttpPostStrategy(url)
+    #payload = {"model": "llama3:7b", "prompt": "hello world", "format": "json"}
+    #messenger = Messenger(strategy=strategy)
+    #response = messenger.send_message("llama3:7b", "How do i cook a dinner")
     print(response)

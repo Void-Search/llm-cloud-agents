@@ -78,7 +78,7 @@ function install_dependencies() {
     if ! command -v pamac &> /dev/null
     then
         log "pamac is not installed. Installing pamac..."
-        sudo pacman -S pamac --no-confirm
+        sudo pacman -Syu pamac --no-confirm
     fi
     # check if docker is installed
     if ! command -v docker &> /dev/null

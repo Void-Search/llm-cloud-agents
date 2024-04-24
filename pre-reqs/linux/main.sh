@@ -84,7 +84,6 @@ function main() {
     log "Starting pre-requisites installation..."
     log "Configuration parsed..."
     check_os
-
 }
 
 main "$@"

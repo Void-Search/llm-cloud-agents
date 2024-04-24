@@ -1,17 +1,10 @@
 {
   "models": [
     {
-      "title": "Llama2-7b",
-      "model": "llama2-7b",
-      "completionOptions": {},
-      "apiBase": "http://localhost:11434",
-      "provider": "ollama"
-    },
-    {
       "title": "runpod-llama2-7b",
       "model": "llama2-7b",
       "completionOptions": {},
-      "apiBase": "https://7k4pf179lg1g5d-11434.proxy.runpod.net",
+      "apiBase": "https://pzu8vkrr8c54ea-11434.proxy.runpod.net",
       "provider": "ollama"
     }
   ],
