@@ -4,9 +4,10 @@ import os
 import yaml
 
 
-class ConfigurationManager:
+class ApiConfigManager:
     def __init__(self, config_file='config.ini'):
         self.config_file = config_file
+        self.configure()
 
     def parse_arguments(self):
         parser = argparse.ArgumentParser(description="Configure API request settings.")
@@ -43,24 +44,24 @@ class ConfigurationManager:
         settings = vars(args)
         if config:
             settings.update(config)
+        self.verify_config(settings)
         return settings
     
     def verify_config(self, settings):
         # verify that the configuration is valid
-        if settings['backend'] not in ['ollama', 'openai']:
-            raise ValueError('Backend must be either ollama or openai')
-        if not settings['model'] or not isinstance(settings['model'], str):
-            raise ValueError('model must be a string')
-        if settings['response'] not in ['json']:
-            raise ValueError('Response must be json'
+        if settings['backend'] is None:
+            raise ValueError("Backend must be provided.")
+        if settings['model'] is None and settings['prompt'] is None:
+            raise ValueError("Model and prompt must be provided.")
+        
     
 def main():
-    config_manager = ConfigurationManager()
+    config_manager = ApiConfigManager()
     settings = config_manager.configure()
-    verify_config(settings)
 
     print(f"Using model: {settings['model']}")
     print(f"Using prompt: {settings['prompt']}")
+    print(f"Using backend: {settings['backend']}")
 
     # Here, you could continue to integrate with other parts of your system
     # For instance, initializing a RequestBuilder and sending a request to a service

@@ -1,4 +1,5 @@
-from configuration_manager import ConfigurationManager
+from api_config_manager import ApiConfigManager
+
 
 def handle_single_prompt():
     pass
@@ -7,12 +8,9 @@ def handle_multi_prompt():
     pass
 
 def main():
-    config_manager = ConfigurationManager()
-    settings = config_manager.configure()
+    settings = ApiConfigManager.configure()
 
-    print(f"Using model: {settings['model']}")
-    print(f"Using prompt: {settings['prompt']}")
-
+    
     if settings['multi_prompt']:
         handle_multi_prompt()
     else:
