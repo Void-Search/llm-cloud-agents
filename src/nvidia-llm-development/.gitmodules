@@ -1,3 +1,0 @@
-[submodule "GenerativeAIExamples"]
-	path = GenerativeAIExamples
-	url = git@github.com:NVIDIA/GenerativeAIExamples.git
