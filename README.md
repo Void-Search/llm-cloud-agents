@@ -1,6 +1,6 @@
 # Ollama LLM Workspace
 
-This workspace contains the source code for a Python project that uses the Ollama LLM (Language Learning Model).
+This workspace contains the source code for a Python project that uses the Ollama LLM (Large Language Model) Tools.
 
 ## Directory Structure
 
