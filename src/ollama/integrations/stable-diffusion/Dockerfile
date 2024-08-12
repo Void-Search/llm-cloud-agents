@@ -1,4 +1,14 @@
-FROM python:3.10.14-bullseye
+FROM rocm/pytorch
+
+
+WORKDIR /dockerx
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+WORKDIR /dockerx/stable-diffusion-webui
+
+
+RUN python -m pip install --upgrade pip wheel && \
+    pip install -r requirements.txt
+
 # Install dependencies
 RUN apt update && \
     apt upgrade -y && \
@@ -7,17 +17,7 @@ RUN apt update && \
     libglib2.0-0 \
     google-perftools 
 
-# Create a new user and switch to that user
-RUN useradd -m stable-diffusion
-USER stable-diffusion
-WORKDIR /home/stable-diffusion/
-# Install the stable diffusion code
-RUN wget https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh
-
-RUN chmod +x ./webui.sh && ./webui.sh 
-WORKDIR /home/stable-diffusion/stable-diffusion-webui
-RUN python -m pip install --upgrade pip wheel
-RUN pip install -r requirements.txt
+ENV COMMANDLINE_ARGS=--skit-torch-cuda-test
 
 # Expose the port
 EXPOSE 8000

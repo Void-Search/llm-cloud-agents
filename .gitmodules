@@ -7,3 +7,6 @@
 [submodule "src/continue-config"]
 	path = src/continue-config
 	url = git@github.com:Void-Search/continue-config.git
+[submodule "src/openwebui"]
+	path = src/openwebui
+	url = git@github.com:Void-Search/open-webui.git

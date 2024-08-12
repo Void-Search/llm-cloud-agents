@@ -1,4 +1,3 @@
-
 # Ollama LLM Workspace
 
 This workspace contains the source code for a Python project that uses the Ollama LLM (Language Learning Model).
@@ -15,11 +14,17 @@ This workspace contains the source code for a Python project that uses the Ollam
     - `ollama_install.sh`: A shell script to install Ollama.
     - `ollama-setup.py`: A Python script to set up Ollama.
     - `requirements.txt`: Lists the Python dependencies for the project.
+  - `open-webui/`: Contains files related to the Open WebUI.
+    - `Makefile`: Contains commands to manage Docker containers.
+    - `.github/workflows/format-build-frontend.yaml`: GitHub Actions workflow for building the frontend.
+    - `backend/config.py`: Configuration file for the backend.
+    - `docs/CONTRIBUTING.md`: Contribution guidelines.
 
 - [`.gitignore`](command:_github.copilot.openRelativePath?%5B%22.gitignore%22%5D ".gitignore"): Specifies files and directories that Git should ignore.
 - [`.vscode/settings.json`](command:_github.copilot.openRelativePath?%5B%22.vscode%2Fsettings.json%22%5D ".vscode/settings.json"): Contains settings for the Visual Studio Code editor.
 - [`LICENSE`](command:_github.copilot.openRelativePath?%5B%22LICENSE%22%5D "LICENSE"): The license for the project.
 - [`README.md`](command:_github.copilot.openRelativePath?%5B%22README.md%22%5D "README.md"): This file.
+
 
 ## Building and Running the Project
 
