@@ -2,5 +2,8 @@
     "editor.defaultFormatter": "ms-python.vscode-pylance",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
-    "terminal.integrated.allowChords": false
+    "terminal.integrated.allowChords": false,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    }
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 GPU_PLATFORM=""
 FRAMEWORK="" 
-LOG_FILE=""
+LOG_FILE="${PWD}/arch_os_setup.log"
 
 function log() {
     # print to terminal and log
@@ -93,8 +93,19 @@ function install_rocm() {
     if ! command -v rocm-smi &> /dev/null
     then
         log "rocm is not installed. Installing rocm..."
-        pamac install rocm-hip-sdk rocm-opencl-runtime rocm-dkms rocm-opencl rocm-opencl-dev rocm-profiler rocm-utils rocm-smi rocm-cmake rocm-device-libs rocm-clang rocm-rocprofiler rocm-rocminfo rocm-bandwidth-test
-        pamac install rocm-hip-sdk rocm-opencl-sdk python-pytorch-cxx11abi-opt-rocm --no-confirm
+        pamac install rocm-hip-sdk \
+              rocm-smi-lib \
+              rocm-opencl-runtime \
+              rocm-smi-lib \
+              rocm-cmake \
+              rocm-device-libs \
+              rocm-clang-ocl \
+              rocm-language-runtime \
+              python-pytorch-opt-rocm \
+              rocm-opencl-sdk \
+              ollama-rocm \
+              rocm-core \
+              --no-confirm
         useradd rocm_user
         groupadd -g 985 video
         groupadd -g 989 render
@@ -126,10 +137,9 @@ function check_os() {
 
 function install_ollama() {
     # install ollama check if installed
-    if ! command -v ollama &> /dev/null
-    then
+    if [! command -v ollama &> /dev/null]; then
         log "ollama is not installed. Installing ollama..."
-        sh "${PWD}/../ollama/${OLLAMA_VERSION}/ollama_install.sh"
+        curl -fsSL "https://ollama.com/install.sh" | sh
     fi
 }
 
@@ -138,12 +148,15 @@ check_os
 parse_args "$@"
 install_dependencies
 if [[ ${GPU_PLATFORM} == "cuda" ]]; then
+    log "Installing cuda..."
     install_cuda
     install_nvidia_container_toolkit
 elif [[ ${GPU_PLATFORM} == "rocm" ]]; then
+    log "Installing rocm..."
     install_rocm
 fi
 setup_docker
 if [[ $FRAMEWORK == "ollama" ]]; then
+    log "Installing ollama..."
     install_ollama
 fi

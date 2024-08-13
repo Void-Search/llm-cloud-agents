@@ -1,12 +1,13 @@
+import ollama
+from helper_functions.timing_functions import monitor_function
 import os
 import sys
 import pprint
 import logging
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from helper_functions.timing_functions import monitor_function
+sys.path.insert(0, os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..")))
 
-import ollama
 
 logging.basicConfig(level=logging.INFO)
 
