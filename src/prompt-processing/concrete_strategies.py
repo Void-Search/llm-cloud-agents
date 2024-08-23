@@ -24,8 +24,15 @@ class SpellCheckStrategy(ProcessingStrategy):
 
     def process(self, context: Context) -> Context:
         self.spell_checker = SpellChecker.SpellChecker(language=context.get_metadata('language', "en"))
-        words = context.text.split()        
-        context.text = ' '.join(self.spell_checker.correction(word) for word in words)
+        words = context.text.split()
+        checked_words = []
+        for word in words:
+            if not self.spell_checker.unknown(word):
+                correction = self.spell_checker.correction(word)
+                if correction is not None:
+                    checked_words.append(correction)
+        # convert list into string
+        context.text = ' '.join(checked_words)
         return context
 
 class GrammarCheckStrategy(ProcessingStrategy):

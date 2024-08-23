@@ -29,6 +29,6 @@ if __name__ == "__main__":
                  .add_formatting()
                  .add_spell_check()
                  .add_grammar_check())
-    long_text = "This is a verry long text with some misspeled words and grammer issues. " * 2000
+    long_text = "This is a verry long text with some misspeled words and grammer issues. " * 10
     result = processor.process(long_text)
     print(result)

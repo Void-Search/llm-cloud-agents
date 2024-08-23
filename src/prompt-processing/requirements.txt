@@ -1,3 +1,4 @@
 pyspellchecker
 language_tool_python
 langdetect
+setuptools
