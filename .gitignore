@@ -164,3 +164,8 @@ dataset
 
 # install files from rust
 rust_install_script.sh
+
+
+# Data folders
+chunks/
+mkv

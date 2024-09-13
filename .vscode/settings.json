@@ -4,6 +4,6 @@
     "editor.formatOnSave": true,
     "terminal.integrated.allowChords": false,
     "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8"
+        "editor.defaultFormatter": "ms-python.black-formatter"
     }
 }

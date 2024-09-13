@@ -11,7 +11,11 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["--backend", "ollam3", "--model", "llama3", "--prompt", "What is the color of the sky?"]
+            "args": ["--backend", "ollam3", "--model", "llama3", "--prompt", "What is the color of the sky?"],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+
         }
     ]
 }

@@ -1,0 +1,8 @@
+transformers
+torch
+ninja
+accelerate
+datasets[audio]
+
+# For audio transcribing
+pydub
