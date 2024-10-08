@@ -1,0 +1,75 @@
+services:
+  pipelines:
+    image: ghcr.io/open-webui/pipelines:main
+    container_name: pipelines
+    restart: always
+    ports:
+      - "9099:9099"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - pipelines:/app/pipelines
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: always
+    ipc: host
+    ports:
+      - "3000:8080"
+    group_add:
+      - video
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    environment:
+      - ROCM_PATH=/opt/rocm
+      - PATH=/opt/rocm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - LD_LIBRARY_PATH=/opt/rocm/lib
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - open-webui:/app/backend/data
+
+  ollama:
+    image: ollama/ollama:rocm
+    container_name: ollama
+    restart: always
+    ipc: host
+    group_add:
+      - video
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp=unconfined
+    ports:
+      - "11434:11434"
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    environment:
+      - ROCM_PATH=/opt/rocm
+      - PATH=/opt/rocm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - LD_LIBRARY_PATH=/opt/rocm/lib
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
+    volumes:
+      - ollama:/root/.ollama
+
+  ## Apache Tika Server 
+  tika:
+    image: apache/tika:latest-full
+    container_name: tika
+    # Override default so we can add configuration on classpath
+    restart: on-failure
+    ports:
+      - "9998:9998"
+
+volumes:
+  pipelines:
+  open-webui:
+  ollama:
+  tika:

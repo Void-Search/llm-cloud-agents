@@ -1,2 +1,9 @@
 pyyaml
 types-PyYAML
+evaluate
+pandas
+peft
+transformers
+trl
+accelerate
+scipy

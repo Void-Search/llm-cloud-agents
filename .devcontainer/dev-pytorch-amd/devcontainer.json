@@ -18,7 +18,8 @@
         "memory": "16gb"
     },
     "containerEnv": {
-        "PYTHONPATH": "${workspaceFolder}/src"
+        "PYTHONPATH": "${workspaceFolder}/src",
+        "TOKENIZERS_PARALLELISM": "true"
     },
     "customizations": {
         "vscode": {
